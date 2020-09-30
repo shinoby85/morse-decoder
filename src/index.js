@@ -39,6 +39,24 @@ const MORSE_TABLE = {
 
 function decode(expr) {
     // write your solution here
+    return expr.split('**********').reduce((prev, item) => {
+        let mas = item.match(/\d{10}/g);
+        let secondStepResult = mas.reduce((word, sItem) => {
+            let finishResult = sItem
+                .match(/\d{2}/g)
+                .reduce((finish, fItem) => {
+                    if (fItem === '10') {
+                        return finish + '.';
+                    }
+                    if (fItem === '11') {
+                        return finish + '-';
+                    }
+                    return finish;
+                }, '')
+            return word + MORSE_TABLE[finishResult];
+        }, '')
+        return prev + secondStepResult + ' ';
+    }, '').trim()
 }
 
 module.exports = {
